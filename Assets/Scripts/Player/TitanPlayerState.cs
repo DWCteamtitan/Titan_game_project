@@ -43,10 +43,11 @@ public class TitanPlayerState : StateBehaviour
 	public float waterLiftingForce = 1.55f;
 	public float swimmingForce = 1.25f;
 	public float gravityForce = 9.81f;
+    public float depth;
 	public bool waterLifting = false;
 	public bool grounded = false;
 	public bool canJump = true;
-	public bool isFloating = false;
+    public bool isFloating = false;
 	public TitanPlayerState.States pState = TitanPlayerState.States.Floating;
 	private void Awake()
 	{
@@ -67,7 +68,7 @@ public class TitanPlayerState : StateBehaviour
 		myTransform = this.transform;
 		myRigidbody.freezeRotation = true;
 		myRigidbody.mass = 10;
-		
+       
 	}
 	
 	// Update is called once per frame
@@ -75,7 +76,9 @@ public class TitanPlayerState : StateBehaviour
 	{
         
        UpdatePlayerState((TitanPlayerState.States) pState);
-		GetLocomotionInput();
+	   GetLocomotionInput();
+       GetDepth();
+       StateChanger();
 	}
 	void FixedUpdate()
 	{
@@ -217,10 +220,28 @@ public class TitanPlayerState : StateBehaviour
 		grounded = false;
 	}
 	
-	public void OnCollisionStay() 
-	{
-		grounded = true;
-	}
+    //Method to Get Depth
+    void GetDepth()
+    {
+        depth = myTransform.position.y;
+    }
+    
+    void StateChanger()
+    {
+        // This will change the state.
+
+        if (depth <= 250f && !isFloating)
+        {
+            // Change state to underwater
+            TitanPlayerState.Instance.UpdatePlayerState(TitanPlayerState.States.UnderWater);
+        }
+
+        else if (isFloating && depth < 250f)
+        {
+            // Change state to floating
+            TitanPlayerState.Instance.UpdatePlayerState(TitanPlayerState.States.Floating);
+        }
+    }
 	void GetLocomotionInput()
 	{
 		// Scanning Prototype
@@ -260,7 +281,6 @@ public class TitanPlayerState : StateBehaviour
 			JumpForce = NORMALJUMPSPEED;
 			pState = TitanPlayerState.States.Normal;
 			waterLifting = false;
-			isFloating = false;
 			break;
 		}
 		case TitanPlayerState.States.Floating:
@@ -269,7 +289,6 @@ public class TitanPlayerState : StateBehaviour
 			JumpForce = NORMALJUMPSPEED;
 			pState = TitanPlayerState.States.Floating;
 			canJump = false;
-			isFloating = true;
 			break;
 		}
 		case TitanPlayerState.States.UnderWater:
@@ -278,7 +297,6 @@ public class TitanPlayerState : StateBehaviour
 			JumpForce = UWJUMPSPEED;
 			pState = TitanPlayerState.States.UnderWater;
 			waterLifting = true;
-			isFloating = false;
 			break;
 		}
 		case TitanPlayerState.States.UnderWater2:
@@ -287,12 +305,38 @@ public class TitanPlayerState : StateBehaviour
 			JumpForce = UW2JUMPSPEED;
 			pState = TitanPlayerState.States.UnderWater2;
 			waterLifting = true;
-			isFloating = false;
-			break;
+            break;
 		}
 		default:
 			break;
 		}
 	}
+
+    /*********************************COlliders/Triggers**********************************/
+    public void OnCollisionStay()
+    {
+        grounded = true;
+    }
+    //is Floating
+    //is Floating
+    public void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Water"))
+            isFloating = true;
+
+    }
+    public void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("Water"))
+            isFloating = true;
+
+    }
+    //end floating
+    public void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Water"))
+            isFloating = false;
+
+    }
 }
 
