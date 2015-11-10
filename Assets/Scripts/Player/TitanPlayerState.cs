@@ -56,7 +56,7 @@ public class TitanPlayerState : StateBehaviour
 		Initialize<States>();
 		
 		//Change to our first state
-		ChangeState(States.Normal);
+		ChangeState(States.Floating);
 		
 		// prototype defense
 		//animator = GetComponent<Animator>();
@@ -73,8 +73,8 @@ public class TitanPlayerState : StateBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		//if (pState ==null)
-		UpdatePlayerState((TitanPlayerState.States) pState);
+        
+       UpdatePlayerState((TitanPlayerState.States) pState);
 		GetLocomotionInput();
 	}
 	void FixedUpdate()
