@@ -3,11 +3,7 @@
   <Name>Hello World</Name>
   <Description>Bonjour, Salut, Hola, Бзиа збаша, Fâla,  ألسّلام عليك, Guten Tag, nuqneH!!!!</Description>
   <Student>
-    <FirstName>David</FirstName>
-    <LastName>Smith</LastName>
-  </Student>
-  <Student>
-    <FirstName>David</FirstName>
+    <FirstName>Bob</FirstName>
     <LastName>Smith</LastName>
   </Student>
 </Item>
