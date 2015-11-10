@@ -271,6 +271,7 @@ public class TitanPlayerState : StateBehaviour
 		myTransform.rotation = rotationAngle;
 	}
 	
+    //Player States
 	public void UpdatePlayerState(TitanPlayerState.States state)
 	{
 		switch (state) 
