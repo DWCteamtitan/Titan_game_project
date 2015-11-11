@@ -168,8 +168,7 @@ public class TitanPlayerState : StateBehaviour
 			{
 				
 				print("Sinking");
-				myRigidbody.AddForce((-transform.up) * JumpForce, ForceMode.Impulse);
-				
+				myRigidbody.AddForce(5*((-transform.up) * JumpForce), ForceMode.Impulse);       
 			}
 			
 		}
