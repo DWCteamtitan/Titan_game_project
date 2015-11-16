@@ -19,3 +19,13 @@
 
 # Unity3D Generated File On Crash Reports
 sysinfo.txt
+*.anim
+*.meta
+*.anim
+*.unity
+*.anim
+Assets/Animation/Camera_Drone_Animation.anim
+*.meta
+Assets/Animation/Camera_Drone_Animation.anim
+*.meta
+Assets/Animation/Camera_Drone_Animation.anim

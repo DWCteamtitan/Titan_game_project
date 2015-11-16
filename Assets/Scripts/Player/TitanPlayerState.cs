@@ -25,6 +25,7 @@ public class TitanPlayerState : StateBehaviour
 	
 	//prototype scan
 	public GameObject shot;
+    GameObject defend;
 	public Transform shotSpawn;
 	public float fireRate;
 	private float nextFire;
@@ -59,10 +60,7 @@ public class TitanPlayerState : StateBehaviour
 		
 		//Change to our first state
 		ChangeState(States.Floating);
-		
-		// prototype defense
-		//animator = GetComponent<Animator>();
-		// end prototytpe
+        defend = transform.FindChild("Sonar_Ping_Defense_Attack").gameObject;
         anim = GetComponentInChildren<Animator>();
 		myRigidbody = GetComponent<Rigidbody>() as Rigidbody;
 		Instance = this;
@@ -244,27 +242,32 @@ public class TitanPlayerState : StateBehaviour
     }
 	void GetLocomotionInput()
 	{
-		// Scanning Prototype
+		// Defending
 		if (Input.GetButton("Fire1") && Time.time > nextFire)
 		{
-			nextFire = Time.time + fireRate;
-   			Instantiate(shot, shotSpawn.position, shotSpawn.rotation);
+            nextFire = Time.time + fireRate;
+            defend.SetActive(true);
+			
+   			//Instantiate(shot, shotSpawn.position, shotSpawn.rotation);
 		}
-		// end scanning prototype
+        else
+        {
+            defend.SetActive(false);
+        }
+		// end defending
 		
 		
 		//Will refactor post prototyping
 		float inputR = Mathf.Clamp(Input.GetAxis("Mouse X"), -1.0f, 1.0f);
 		
-		if (Input.GetKeyDown(KeyCode.A))
+		if (Input.GetButton("Rotate_Right"))
 		{
-			currentRotation += 5;
+			currentRotation ++;
 		}
-		
-		if (Input.GetKeyDown(KeyCode.D))
-		{
-			currentRotation -= 5;
-		}
+        if (Input.GetButton("Rotate_Left"))
+        {
+            currentRotation--;
+        }
 		
 		currentRotation = Helper.ClampedAngle(currentRotation + (inputR * rotationSpeed));
 		Quaternion rotationAngle = Quaternion.Euler(0.0f, currentRotation, 0.0f);
