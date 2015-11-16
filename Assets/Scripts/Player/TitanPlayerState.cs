@@ -37,6 +37,7 @@ public class TitanPlayerState : StateBehaviour
 	public static TitanPlayerState Instance;
 	public static Transform myTransform;
 	public static Rigidbody myRigidbody;
+    Animator anim;                      // Reference to the animator component.
 	public float Speed = NORMALSPEED;
 	public float JumpForce = NORMALJUMPSPEED;
 	public float maxVelocityChange = 10.0f;
@@ -62,7 +63,7 @@ public class TitanPlayerState : StateBehaviour
 		// prototype defense
 		//animator = GetComponent<Animator>();
 		// end prototytpe
-		
+        anim = GetComponentInChildren<Animator>();
 		myRigidbody = GetComponent<Rigidbody>() as Rigidbody;
 		Instance = this;
 		myTransform = this.transform;
@@ -247,7 +248,7 @@ public class TitanPlayerState : StateBehaviour
 		if (Input.GetButton("Fire1") && Time.time > nextFire)
 		{
 			nextFire = Time.time + fireRate;
-			Instantiate(shot, shotSpawn.position, shotSpawn.rotation);
+   			Instantiate(shot, shotSpawn.position, shotSpawn.rotation);
 		}
 		// end scanning prototype
 		
